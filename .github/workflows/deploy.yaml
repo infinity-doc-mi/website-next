@@ -36,15 +36,15 @@ jobs:
 
       - name: Prepare artifacts
         run: |
-          mkdir -p shipping
-          mv .denomon/artifacts/worker/main.js shipping/worker.js
-          mkdir -p shipping/public
-          mv .denomon/artifacts/web/* shipping/public
-          cp ship/web/wrangler.toml shipping
+          mkdir -p upload
+          mv .denomon/artifacts/worker/main.js upload/worker.js
+          mkdir -p upload/public
+          mv .denomon/artifacts/web/* upload/public
+          cp ship/web/wrangler.toml upload
       
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: shipping
+          workingDirectory: upload
