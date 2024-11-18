@@ -17,7 +17,7 @@ jobs:
       - name: Install Deno
         uses: denoland/setup-deno@v2
         with:
-          deno-version: 2.0.6
+          deno-version: 1.x
       
       - name: Compile Denomon CLI
         run: deno task compile-cli
@@ -33,7 +33,7 @@ jobs:
           mkdir -p tmp
           mv .denomon/artifacts/web tmp
           mv .denomon/artifacts/worker/main.js tmp/worker.js
-          cp ship/wrangler.toml tmp
+          cp ship/web/wrangler.toml tmp
       
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
