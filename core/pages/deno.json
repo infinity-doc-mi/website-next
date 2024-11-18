@@ -1,0 +1,14 @@
+{
+  "name": "@infinitydoc/website-pages",
+  "version": "0.0.1",
+  "exports": "./mod.ts",
+
+  "imports": {
+    "regexparam": "https://esm.sh/regexparam@3.0.0"
+  },
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true,
+    "lineWidth": 80
+  }
+}

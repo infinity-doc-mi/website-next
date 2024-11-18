@@ -1,0 +1,59 @@
+{
+  "description": "Infinity website workspace",
+
+  // See https://docs.deno.com/runtime/fundamentals/workspaces/#configuring-built-in-deno-tools
+  "compilerOptions": {
+    "lib": ["dom", "deno.ns", "dom.iterable", "deno.unstable"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "jsxImportSourceTypes": "@types/react"
+  },
+
+  "imports": {
+    "react": "npm:react@18.3.1",
+    "@types/react": "npm:@types/react@18.2.38",
+
+    "react-dom": "npm:react-dom@18.3",
+    "@types/react-dom": "npm:@types/react-dom@18.3",
+
+    "react-router-dom": "npm:react-router-dom@^6.28.0",
+    "hono": "jsr:@hono/hono@4.6.9"
+  },
+
+  "workspace": [
+    "dist/web",
+    "dist/server",
+    "dist/worker",
+
+    "core/pages",
+    "core/icons",
+    "core/theme",
+    "core/publisher",
+
+    "lib/misc",
+    "lib/esbuild-deno-plugin",
+
+    ".denomon/cli/",
+    ".denomon/kits/app.deno.cli/",
+    ".denomon/kits/app.deno.server/",
+    ".denomon/kits/app.cloudflare.worker/",
+    ".denomon/kits/app.react.lean/"
+  ],
+
+  "tasks": {
+    "compile-cli": "deno compile --allow-all --config=.denomon/cli/deno.json --output=.denomon/bin/denomon .denomon/cli/main.ts"
+  },
+
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true,
+    "indentWidth": 2,
+    "lineWidth": 80
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-explicit-any"]
+    }
+  },
+  "unstable": ["fmt-component"]
+}

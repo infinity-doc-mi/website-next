@@ -1,0 +1,7 @@
+{
+  "associations": {
+    "web": "@denomon/kit-react-lean",
+    "server": "@denomon/kit-deno-server",
+    "worker": "@denomon/kit-cloudflare-worker"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@infinitydoc/theme",
+  "version": "0.0.1",
+  "exports": "./mod.ts",
+
+  "imports": {
+    "tailwind-merge": "npm:tailwind-merge",
+    "cva": "npm:cva@1.0.0-beta.0"
+  },
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true,
+    "lineWidth": 80
+  }
+}

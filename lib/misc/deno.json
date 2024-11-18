@@ -1,0 +1,15 @@
+{
+  "name": "@duesabati/misc",
+  "version": "0.0.1",
+  "description": "Where should I put this?",
+  "exports": {
+    ".": "./mod.ts"
+  },
+
+  "imports": {},
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true,
+    "lineWidth": 80
+  }
+}

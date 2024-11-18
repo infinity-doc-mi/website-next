@@ -1,0 +1,42 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: 2.0.6
+      
+      - name: Compile Denomon CLI
+        run: deno task compile-cli
+
+      - name: Build Web
+        run: .denomon/bin/denomon build web
+
+      - name: Build Worker
+        run: .denomon/bin/denomon build worker
+
+      - name: Prepare artifacts
+        run: |
+          mkdir -p tmp
+          mv .denomon/artifacts/web tmp
+          mv .denomon/artifacts/worker/main.js tmp/worker.js
+          cp ship/wrangler.toml tmp
+      
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: tmp

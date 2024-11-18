@@ -1,0 +1,14 @@
+{
+  "name": "@denomon/kit-cloudflare-worker",
+  "exports": {
+    "./dev": "./dev.ts",
+    "./build": "./build.ts"
+  },
+  "version": "0.0.1",
+  "imports": {
+    "@std/async": "jsr:@std/async@1.0.4",
+    "@std/path": "jsr:@std/path@1.0.3",
+    "esbuild": "npm:esbuild@0.24.0",
+    "esbuild-deno-plugin": "jsr:@duesabati/esbuild-deno-plugin"
+  }
+}
