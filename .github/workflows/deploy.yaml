@@ -39,7 +39,7 @@ jobs:
           mkdir -p shipping
           mv .denomon/artifacts/worker/main.js shipping/worker.js
           mkdir -p shipping/public
-          mv .denomon/artifacts/web shipping/public
+          mv .denomon/artifacts/web/* shipping/public
           cp ship/web/wrangler.toml shipping
       
       - name: Deploy to Cloudflare Workers
