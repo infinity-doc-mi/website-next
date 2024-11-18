@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DENOMON_WORKSPACE_DIR: '/workspace'
-      DENOMON_ARTIFACTS_DIR: '/workspace/.denomon/artifacts'
-      DENOMON_KITS_FILE: '/workspace/.denomon/kits.json'
-      DENOMON_KITS_DIR: '/workspace/.denomon/kits'
+      DENOMON_WORKSPACE_DIR: ${{ github.workspace }}
+      DENOMON_ARTIFACTS_DIR: ${{ github.workspace }}/.denomon/artifacts
+      DENOMON_KITS_FILE: ${{ github.workspace }}/.denomon/kits.json
+      DENOMON_KITS_DIR: ${{ github.workspace }}/.denomon/kits
 
     steps:
       - name: Checkout code
