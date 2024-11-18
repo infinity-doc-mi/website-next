@@ -40,8 +40,10 @@
     ".denomon/kits/app.react.lean/"
   ],
 
+  "lock": false,
+
   "tasks": {
-    "compile-cli": "deno compile --allow-all --config=.denomon/cli/deno.json --output=.denomon/bin/denomon .denomon/cli/main.ts"
+    "compile-cli": "deno compile --no-lock --allow-all --config=.denomon/cli/deno.json --output=.denomon/bin/denomon .denomon/cli/main.ts"
   },
 
   "fmt": {

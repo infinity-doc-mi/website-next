@@ -35,7 +35,7 @@ RUN groupadd docker
 RUN usermod -aG docker developer
 
 # Install Deno
-COPY --from=denoland/deno:bin-2.0.6 /deno /usr/local/bin/deno
+COPY --from=denoland/deno:bin-1.46.3 /deno /usr/local/bin/deno
 
 # Set Denomon environment variables
 
