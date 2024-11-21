@@ -11,7 +11,13 @@ const decoder = new TextDecoder()
 async function main() {
   const script_path = `${OUT_DIR}/main.js`
 
-  await Promise.all([watchJS(), wrangler(script_path)])
+  globalThis.addEventListener('unload', () => {
+    console.log('Cleaning up...')
+    remove_wrangler_container()
+  })
+
+  watchJS()
+  await wrangler(script_path)
 }
 
 await main()
@@ -79,4 +85,10 @@ async function find_wrangler_image() {
   const image_id = decoder.decode(stdout).trim()
 
   return image_id === '' ? undefined : image_id
+}
+
+async function remove_wrangler_container() {
+  const cmd = new Deno.Command('docker', { args: ['rm', '-f', IMAGE_NAME] })
+  await cmd.output()
+  return
 }

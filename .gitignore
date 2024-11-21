@@ -3,3 +3,4 @@
 .denomon/bin
 
 .wrangler
+node_modules

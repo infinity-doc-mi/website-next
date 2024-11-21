@@ -32,7 +32,9 @@ const ctx = await esbuild.context({
   },
 })
 
-export const buildJS = async () => {
+export const rebuildJS = async () => {
   const result = await ctx.rebuild()
   return result
 }
+
+export const watchJS = ctx.watch

@@ -7,15 +7,11 @@ const PORT = Deno.env.get('PORT') ?? 1234
 const BASE_URL = Deno.env.get('BASE_URL') || `http://localhost:${PORT}`
 const APP_MAIN = `${BASE_URL}/main.js`
 
-let outdir_ensured = false
 let index_html_check_done = false
 let has_index_html = false
 
 export async function buildStatic() {
-  if (!outdir_ensured) {
-    await ensureDir(`${OUT_DIR}`)
-    outdir_ensured = true
-  }
+  await ensureDir(`${OUT_DIR}`)
 
   await copy(`${SRC_DIR}/static`, `${OUT_DIR}`, { overwrite: true })
 

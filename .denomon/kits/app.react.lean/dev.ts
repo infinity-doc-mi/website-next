@@ -1,8 +1,9 @@
+import { ensureDir } from '@std/fs'
 import { debounce } from '@std/async/debounce'
 import { serveDir } from '@std/http/file-server'
 
 import { buildCSS } from './src/dev/tailwind.ts'
-import { buildJS } from './src/dev/esbuild.ts'
+import { rebuildJS, watchJS } from './src/dev/esbuild.ts'
 import { buildStatic } from './src/shared/static.ts'
 import { removeAsset } from './src/shared/static.ts'
 
@@ -19,7 +20,7 @@ const encoder = new TextEncoder()
 const debounced = debounce(async (e: Deno.FsEvent) => {
   console.time('Rebuilt in')
   if (e.paths.some(isSourceCode)) {
-    await Promise.all([buildJS(), buildCSS()])
+    await Promise.all([rebuildJS(), buildCSS()])
   }
 
   if (e.paths.some(isHtml) || e.paths.some(isCss)) {
@@ -36,22 +37,15 @@ const debounced = debounce(async (e: Deno.FsEvent) => {
   }
 }, 300)
 
-const only_source = (path: string) => {
-  return !path.includes('.cache') && !path.includes('http://') &&
-    !path.includes('https://')
-}
-
 async function main(): Promise<void> {
   console.log(`Starting development...`)
-  console.time('Built in')
-  const [build] = await Promise.all([buildJS(), buildCSS(), buildStatic()])
-  console.timeEnd('Built in')
 
-  const source_imports = Object.keys(build.metafile.inputs).filter(only_source)
+  watchJS()
+  buildCSS()
+  buildStatic()
 
-  Deno.writeTextFile(`${OUT_DIR}/.meta.json`, JSON.stringify(build.metafile))
-
-  const watcher = Deno.watchFs([SRC_DIR, ...source_imports])
+  await ensureDir(OUT_DIR)
+  const watcher = Deno.watchFs([`${OUT_DIR}/main.js`, SRC_DIR])
 
   Deno.serve({ port: Number(PORT), hostname: '0.0.0.0' }, async (req) => {
     const url = new URL(req.url)

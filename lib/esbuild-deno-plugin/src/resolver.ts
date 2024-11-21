@@ -1,4 +1,5 @@
 import { dirname, resolve, toFileUrl } from '@std/path'
+import { existsSync } from '@std/fs'
 
 import type { Plugin } from './concepts/esbuild.ts'
 
@@ -136,10 +137,24 @@ export const denoResolver = (
       // If `workspace` is specified, use the workspace to extend the
       // import map.
       if (Array.isArray(config.workspace) && config.workspace.length > 0) {
-        for (const member of config.workspace) {
-          const root = dirname(opts.configPath)
-          const path = resolve(root, member)
+        const root = dirname(opts.configPath)
 
+        const workspace_members = config.workspace.map((path) => {
+          if (is_glob(path)) {
+            const glob = resolve(root, get_root_of(path))
+
+            const members = Array.from(Deno.readDirSync(glob))
+              .filter((e) => e.isDirectory)
+              .map((e) => resolve(glob, e.name))
+              .filter(is_deno_project)
+
+            return members
+          }
+
+          return resolve(root, path)
+        }).flat()
+
+        for (const path of workspace_members) {
           const { name, exports, imports, importMap } = DenoConfig
             .ofWorkspaceMember(path)
 
@@ -229,8 +244,7 @@ export const denoResolver = (
 
         const { path, namespace } = urlToEsbuildResolution(new URL(resolved))
 
-        const res = await b.resolve(path, { namespace, kind: args.kind })
-        return res
+        return await b.resolve(path, { namespace, kind: args.kind })
       }
 
       const referrer = new URL(`${toFileUrl(args.resolveDir).href}/`)
@@ -243,8 +257,12 @@ export const denoResolver = (
 
       const { path, namespace } = urlToEsbuildResolution(new URL(resolved))
 
-      const res = await b.resolve(path, { namespace, kind: args.kind })
-      return res
+      return await b.resolve(path, { namespace, kind: args.kind })
     })
   },
 })
+
+const is_glob = (path: string) => path.endsWith('*')
+const get_root_of = (glob: string) => glob.split('/').slice(0, -1).join('/')
+const is_deno_project = (path: string) =>
+  existsSync(path + '/deno.json') || existsSync(path + '/deno.jsonc')

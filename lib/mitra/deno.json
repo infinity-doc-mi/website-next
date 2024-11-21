@@ -1,0 +1,11 @@
+{
+  "name": "@duesabati/mitra",
+  "version": "1.0.1",
+  "exports": "./mod.ts",
+
+  "lint": {
+    "rules": {
+      "exclude": ["no-namespace"]
+    }
+  }
+}

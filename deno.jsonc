@@ -25,19 +25,12 @@
     "dist/server",
     "dist/worker",
 
-    "core/pages",
-    "core/icons",
-    "core/theme",
-    "core/publisher",
+    "core/**",
 
     "lib/misc",
     "lib/esbuild-deno-plugin",
 
-    ".denomon/cli/",
-    ".denomon/kits/app.deno.cli/",
-    ".denomon/kits/app.deno.server/",
-    ".denomon/kits/app.cloudflare.worker/",
-    ".denomon/kits/app.react.lean/"
+    ".denomon/**"
   ],
 
   "lock": false,

@@ -5,7 +5,7 @@
   "version": "0.0.1",
 
   "imports": {
-    "cliffy": "jsr:@cliffy/command@1.0.0-rc.5",
+    "cliffy": "jsr:@cliffy/command@1.0.0-rc.7",
     "@std/fs": "jsr:@std/fs@1.0.2",
     "@std/jsonc": "jsr:@std/jsonc@1.0.1",
     "which": "jsr:@david/which"

@@ -9,6 +9,7 @@ import {
 import { ReviewsMarquee } from '../components/reviews-marquee.tsx'
 import { Call } from './assets.tsx'
 import * as Icons from '@infinitydoc/icons'
+import { NavigationMenu } from '@infinitydoc/theme'
 import { GoogleRating } from '../components/google-rating.tsx'
 
 const load = () => {
@@ -23,8 +24,8 @@ export function render() {
   const services = ['A', 'B', 'C', 'D']
 
   return (
-    <div className='relative bg-[#fafaf9]'>
-      <header className='sticky top-0 z-50 w-full bg-[#fafaf9] backdrop-blur-sm drop-shadow-md h-20'>
+    <div className='relative bg-background'>
+      <header className='sticky top-0 z-50 w-full bg-background backdrop-blur-sm drop-shadow-md h-20'>
         <div className='container max-w-7xl flex h-full w-full items-center justify-between'>
           <a href='/' className='flex items-center gap-3'>
             <img
@@ -35,7 +36,44 @@ export function render() {
             <span className='text-xl font-bold text-brand'>infinitydoc</span>
           </a>
 
-          <nav className='flex items-center'>
+          <NavigationMenu>
+            <NavigationMenu.List className='flex items-center gap-16 font-medium'>
+              <NavigationMenu.Item>
+                <NavigationMenu.Trigger>Services</NavigationMenu.Trigger>
+                <NavigationMenu.Content>
+                  <NavigationMenu.Link>Link</NavigationMenu.Link>
+                </NavigationMenu.Content>
+              </NavigationMenu.Item>
+
+              <NavigationMenu.Item>
+                <NavigationMenu.Trigger>Contacts</NavigationMenu.Trigger>
+                <NavigationMenu.Content>
+                  <NavigationMenu.Link>Link</NavigationMenu.Link>
+                </NavigationMenu.Content>
+              </NavigationMenu.Item>
+
+              <NavigationMenu.Item>
+                <NavigationMenu.Link
+                  href='/about-us'
+                  className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50'
+                >
+                  About us
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+
+              <NavigationMenu.Item>
+                <NavigationMenu.Link
+                  href='/guides'
+                  className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50'
+                >
+                  Guides
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+            </NavigationMenu.List>
+          </NavigationMenu>
+
+          {
+            /* <nav className='flex items-center'>
             <ul className='flex items-center gap-24 font-medium'>
               <li className='cursor-pointer p-5 transition-colors'>
                 Services
@@ -47,7 +85,8 @@ export function render() {
                 About us
               </li>
             </ul>
-          </nav>
+          </nav> */
+          }
 
           <div></div>
         </div>
@@ -57,6 +96,13 @@ export function render() {
         <div className='container max-w-7xl mx-auto text-foreground relative grid grid-cols-12'>
           <div className='col-span-6 flex flex-col gap-10 py-10'>
             <div className='flex flex-col gap-5'>
+              <div className='flex items-center gap-1'>
+                <div className='h-1 w-6 bg-brand'></div>
+                <span className='uppercase text-brand text-lg'>
+                  infinitydoc
+                </span>
+              </div>
+
               <h1 className='text-6xl font-medium'>
                 An available doctor <br />
                 near you{' '}
@@ -149,7 +195,7 @@ export function render() {
         </div>
       </section>
 
-      <section className='py-20 text-foreground bg-[#f7f7ff] shadow-section'>
+      <section className='py-20 text-foreground bg-gradient-to-t from-[#f7f7ff] to-[#fafaf9] from-70% shadow-section'>
         <div className='container max-w-7xl flex flex-col gap-10'>
           <div>
             <h2 className='text-3xl font-medium text-center'>

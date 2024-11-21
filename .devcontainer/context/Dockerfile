@@ -1,8 +1,9 @@
 ARG WORKSPACE_DIR="/home/developer/workspace"
 
-FROM debian:latest AS foundation
+FROM denoland/deno:debian-2.1.1 AS foundation
 
 ENV USERNAME=developer
+ENV DENO_DIR="/home/${USERNAME}/.cache"
 
 # Create `developer` user
 RUN adduser --shell /bin/zsh --home /home/${USERNAME} ${USERNAME}
@@ -33,9 +34,6 @@ RUN chown -R developer:developer /home/developer
 # Create docker group
 RUN groupadd docker
 RUN usermod -aG docker developer
-
-# Install Deno
-COPY --from=denoland/deno:bin-1.46.3 /deno /usr/local/bin/deno
 
 # Set Denomon environment variables
 
