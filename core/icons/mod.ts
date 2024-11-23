@@ -3,5 +3,8 @@ export * from './src/sparkles.tsx'
 export * from './src/star.tsx'
 export * from './src/microphone.tsx'
 export * from './src/chevron-down.tsx'
+export * from './src/chevron-right.tsx'
+export * from './src/globe.tsx'
+export * from './src/phone-calling.tsx'
 
 export * from './src/google.tsx'

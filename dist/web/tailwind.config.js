@@ -12,6 +12,7 @@ export default {
     extend: {
       boxShadow: {
         section: '0 2px 4px 0 #00000008,0 8px 8px 0 #00000008',
+        prominent: '2px 7px 15px 0px #0f32500a,7px 27px 28px 0px #0f325008,17px 60px 37px 0px #0f325005,29px 107px 44px 0px #0f325003,46px 167px 49px 0px #0f325000' 
       },
       colors: {
         brand: {

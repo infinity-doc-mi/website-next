@@ -7,7 +7,6 @@ import {
   Puzzle,
 } from './assets.tsx'
 import { ReviewsMarquee } from '../components/reviews-marquee.tsx'
-import { Call } from './assets.tsx'
 import * as Icons from '@infinitydoc/icons'
 import { NavigationMenu } from '@infinitydoc/theme'
 import { GoogleRating } from '../components/google-rating.tsx'
@@ -72,34 +71,27 @@ export function render() {
             </NavigationMenu.List>
           </NavigationMenu>
 
-          {
-            /* <nav className='flex items-center'>
-            <ul className='flex items-center gap-24 font-medium'>
-              <li className='cursor-pointer p-5 transition-colors'>
-                Services
-              </li>
-              <li className='cursor-pointer py-9 transition-colors'>
-                Contacts
-              </li>
-              <li className='cursor-pointer py-9 transition-colors'>
-                About us
-              </li>
-            </ul>
-          </nav> */
-          }
-
           <div></div>
         </div>
       </header>
 
       <section className='w-full overflow-hidden py-24'>
         <div className='container max-w-7xl mx-auto text-foreground relative grid grid-cols-12'>
-          <div className='col-span-6 flex flex-col gap-10 py-10'>
+          {/* <div
+            className='absolute top-1/2 -translate-y-1/2 -left-40 size-[600px] z-0'
+            style={{
+              background:
+                'radial-gradient(closest-side, #bf8bda50 0%, #bf8bda50 50%, #bf8bda00 100%)',
+            }}
+          >
+          </div> */}
+
+          <div className='relative col-span-6 flex flex-col gap-10 py-10'>
             <div className='flex flex-col gap-5'>
               <div className='flex items-center gap-1'>
-                <div className='h-1 w-6 bg-brand'></div>
-                <span className='uppercase text-brand text-lg'>
-                  infinitydoc
+                <div className='h-1 w-8 bg-brand'></div>
+                <span className='uppercase text-brand text-lg ml-1'>
+                  infinitydoc studio
                 </span>
               </div>
 
@@ -207,8 +199,76 @@ export function render() {
           </div>
 
           <div>
-            <Call />
             <DoctorOK />
+          </div>
+        </div>
+      </section>
+
+      <section className='py-20 text-foreground'>
+        <div className='w-full mx-4 md:mx-10 lg:mx-20 py-16 rounded-xl shadow-prominent md:px-10 lg:px-20 max-w-6xl xl:mx-auto bg-white'>
+          <div className='flex w-full gap-16'>
+            <div className='flex flex-col justify-center gap-5'>
+              <span className='uppercase'>contact us</span>
+              <p className='text-4xl font-medium'>
+                Let us take care of your health
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Consequuntur impedit dignissimos, quae nam eligendi dolor nemo
+                error rerum necessitatibus porro.
+              </p>
+            </div>
+
+            <div className='w-full min-w-max grid grid-cols-2 gap-x-20 gap-y-5 auto-rows-auto'>
+              <Icons.Globe className='size-10 stroke-1 text-violet-400' />
+
+              <Icons.PhoneCalling className='size-10 stroke-1 text-violet-400' />
+
+              <div className='flex flex-col gap-4'>
+                <h2 className='text-xl font-semibold'>Visit us on</h2>
+                <p className='text-lg'>
+                  Piazzale Caiazzo, 2 Milano, 20124
+                </p>
+
+                <a
+                  href='#'
+                  className='font-medium text-brand group hover:underline'
+                >
+                  Open in Google Maps{' '}
+                  <Icons.ChevronRight className='size-4 stroke-2 inline-block transition-transform will-change-transform group-hover:translate-x-1' />
+                </a>
+              </div>
+
+              <div className='flex flex-col gap-4'>
+                <h2 className='text-xl font-semibold'>Contact us</h2>
+                <span className='font-medium text-neutral-500'>
+                  Phone number
+                </span>
+                <a href='tel:+39021234567' className='text-lg font-semibold'>
+                  +39 02 1234567
+                </a>
+              </div>
+
+              <hr className='w-full mx-auto h-0.5 bg-neutral-400/40' />
+              <hr className='w-full mx-auto h-0.5 bg-neutral-400/40' />
+
+              <p className='max-w-60 font-medium text-neutral-500'>
+                Availability to schedule appointments 24 hours a day, 7 days a
+                week.
+              </p>
+
+              <div className='flex flex-col gap-3'>
+                <span className='font-medium text-neutral-500'>
+                  Email address
+                </span>
+                <a
+                  href='mailto:info@infinitydoc.it'
+                  className='text-lg font-semibold'
+                >
+                  info@infinitydoc.it
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -217,9 +277,9 @@ export function render() {
         <div className='relative w-full max-w-7xl bg-violet-500/20 py-20 pl-40 pr-20 mx-auto rounded-2xl'>
           <div className='flex items-center justify-between'>
             <img
-              src='/images/rating-hand.svg'
+              src='/images/rating.png'
               alt=''
-              className='absolute size-40 -left-10'
+              className='absolute size-60 -left-20 -bottom-10'
             />
 
             <div className='flex flex-col -mt-14 md:mt-0 md:col-start-2 md:row-start-1 md:pt-4 md:pr-8 lg:pt-0 lg:min-w-56 max-w-2xl'>
