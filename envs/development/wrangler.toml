@@ -1,2 +1,9 @@
 name = "infinitydoc"
+
 assets = { directory = "../../.denomon/artifacts/web", binding = "ASSETS", html_handling = "force-trailing-slash", not_found_handling = "404-page" }
+
+d1_databases = [
+  { binding = "DB", database_name = "infinitydoc", database_id = "infdoc-dev" },
+]
+
+upload_source_maps = true

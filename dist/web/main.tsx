@@ -1,9 +1,11 @@
+// @deno-types="@types/react"
 import { StrictMode } from 'react'
+// @deno-types="@types/react-dom/client"
 import { hydrateRoot } from 'react-dom/client'
 
 import { Root, routes } from '@infinitydoc/website-pages'
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router'
 
 if (!globalThis._IS_PRODUCTION_) {
   console.log('Live reload enabled!')
@@ -20,24 +22,16 @@ if (!globalThis._IS_PRODUCTION_) {
   })
 }
 
-const router = createBrowserRouter(routes, {
-  future: {
-    v7_fetcherPersist: true,
-    v7_normalizeFormMethod: true,
-    v7_partialHydration: true,
-    v7_relativeSplatPath: true,
-    v7_skipActionErrorRevalidation: true,
-  },
-})
+const router = createBrowserRouter(routes)
 
-const main = () =>
+function main() {
   hydrateRoot(
     document,
     <StrictMode>
       <Root title={globalThis.__HEAD__.title}>
-        <RouterProvider router={router} future={{ v7_startTransition: true }} />
+        <RouterProvider router={router} />
       </Root>
     </StrictMode>,
   )
-
+}
 main()

@@ -64,7 +64,8 @@
         "eamodio.gitlens",
         "bradlc.vscode-tailwindcss",
         "mhutchie.git-graph",
-        "denoland.vscode-deno"
+        "denoland.vscode-deno",
+        "tamasfe.even-better-toml"
       ]
     }
   }

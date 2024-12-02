@@ -34,6 +34,7 @@ async function wrangler(script_path: string) {
     args: [
       'run',
       '--rm',
+      '-it',
       '-v',
       `${WORKSPACE_DIR}:${WORKSPACE_DIR}`,
       '-p',

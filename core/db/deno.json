@@ -1,0 +1,12 @@
+{
+  "name": "@infinitydoc/db",
+  "version": "0.0.1",
+  "exports": "./mod.ts",
+
+  "imports": {},
+  "fmt": {
+    "semiColons": false,
+    "singleQuote": true,
+    "lineWidth": 80
+  }
+}

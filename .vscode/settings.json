@@ -30,5 +30,6 @@
     "editor.autoIndent": "advanced",
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.defaultFormatter": "denoland.vscode-deno"
-  }
+  },
+  "sqltools.useNodeRuntime": true
 }

@@ -8,11 +8,16 @@ import {
 } from './assets.tsx'
 import { ReviewsMarquee } from '../components/reviews-marquee.tsx'
 import * as Icons from '@infinitydoc/icons'
-import { NavigationMenu } from '@infinitydoc/theme'
 import { GoogleRating } from '../components/google-rating.tsx'
+import { ServiceHighlight } from '@infinitydoc/model'
+import { type LoaderFunctionArgs, useLoaderData } from 'react-router'
 
-const load = () => {
-  return {}
+const load = async ({ context }: LoaderFunctionArgs) => {
+  const services_highlight = context.cols.get(ServiceHighlight)
+
+  const services = await services_highlight.find(ServiceHighlight.all, {})
+
+  return { services }
 }
 
 const head = () => ({
@@ -20,7 +25,7 @@ const head = () => ({
 })
 
 export function render() {
-  const services = ['A', 'B', 'C', 'D']
+  const { services } = useLoaderData<typeof load>()
 
   return (
     <div className='relative bg-background'>
@@ -35,41 +40,39 @@ export function render() {
             <span className='text-xl font-bold text-brand'>infinitydoc</span>
           </a>
 
-          <NavigationMenu>
-            <NavigationMenu.List className='flex items-center gap-16 font-medium'>
-              <NavigationMenu.Item>
-                <NavigationMenu.Trigger>Services</NavigationMenu.Trigger>
-                <NavigationMenu.Content>
-                  <NavigationMenu.Link>Link</NavigationMenu.Link>
-                </NavigationMenu.Content>
-              </NavigationMenu.Item>
+          <nav>
+            <ul className='flex items-center gap-16 font-medium'>
+              <button className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50'>
+                Services
+                <Icons.ChevronDown
+                  className='relative top-[1px] ml-2 size-4 transition duration-200 group-hover:rotate-180'
+                  aria-hidden='true'
+                />
+              </button>
 
-              <NavigationMenu.Item>
-                <NavigationMenu.Trigger>Contacts</NavigationMenu.Trigger>
-                <NavigationMenu.Content>
-                  <NavigationMenu.Link>Link</NavigationMenu.Link>
-                </NavigationMenu.Content>
-              </NavigationMenu.Item>
+              <button className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50'>
+                Contacts
+                <Icons.ChevronDown
+                  className='relative top-[1px] ml-2 size-4 transition duration-200 group-hover:rotate-180'
+                  aria-hidden='true'
+                />
+              </button>
 
-              <NavigationMenu.Item>
-                <NavigationMenu.Link
-                  href='/about-us'
-                  className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50'
-                >
-                  About us
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
+              <a
+                href='/about-us'
+                className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50'
+              >
+                About us
+              </a>
 
-              <NavigationMenu.Item>
-                <NavigationMenu.Link
-                  href='/guides'
-                  className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50'
-                >
-                  Guides
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
-            </NavigationMenu.List>
-          </NavigationMenu>
+              <a
+                href='/guides'
+                className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50'
+              >
+                Guides
+              </a>
+            </ul>
+          </nav>
 
           <div></div>
         </div>
@@ -77,15 +80,6 @@ export function render() {
 
       <section className='w-full overflow-hidden py-24'>
         <div className='container max-w-7xl mx-auto text-foreground relative grid grid-cols-12'>
-          {/* <div
-            className='absolute top-1/2 -translate-y-1/2 -left-40 size-[600px] z-0'
-            style={{
-              background:
-                'radial-gradient(closest-side, #bf8bda50 0%, #bf8bda50 50%, #bf8bda00 100%)',
-            }}
-          >
-          </div> */}
-
           <div className='relative col-span-6 flex flex-col gap-10 py-10'>
             <div className='flex flex-col gap-5'>
               <div className='flex items-center gap-1'>
@@ -153,15 +147,16 @@ export function render() {
           <div className='grid grid-cols-4 gap-5 auto-rows-auto'>
             {services.map((service) => (
               <div
-                key={service}
+                key={service.name}
                 className='w-full aspect-square rounded-xl group border-2 border-transparent transition-all shadow hover:border-brand hover:-translate-y-1 bg-surface p-6 cursor-pointer'
               >
                 <div className='flex flex-col gap-5'>
                   <Icons.Microphone className='text-brand' />
-                  <h3 className='text-xl font-medium'>Service {service}</h3>
+                  <h3 className='text-xl font-medium'>
+                    {service.name}
+                  </h3>
                   <p className=''>
-                    Available 24 hours a day, 7 days a week. Immediate phone
-                    call with one of our medical professionals.
+                    {service.description}
                   </p>
                 </div>
               </div>
@@ -208,14 +203,15 @@ export function render() {
         <div className='w-full mx-4 md:mx-10 lg:mx-20 py-16 rounded-xl shadow-prominent md:px-10 lg:px-20 max-w-6xl xl:mx-auto bg-white'>
           <div className='flex w-full gap-16'>
             <div className='flex flex-col justify-center gap-5'>
-              <span className='uppercase'>contact us</span>
+              <span className='uppercase text-violet-400 font-medium'>
+                appointments
+              </span>
               <p className='text-4xl font-medium'>
                 Let us take care of your health
               </p>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Consequuntur impedit dignissimos, quae nam eligendi dolor nemo
-                error rerum necessitatibus porro.
+                We are reachable in many ways, choose the one that best suits
+                you.
               </p>
             </div>
 

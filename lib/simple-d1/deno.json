@@ -1,0 +1,9 @@
+{
+  "name": "@duesabati/simple-d1",
+  "version": "0.0.1",
+  "exports": "./mod.ts",
+
+  "imports": {
+    "@cloudflare/workers-types": "npm:@cloudflare/workers-types"
+  }
+}

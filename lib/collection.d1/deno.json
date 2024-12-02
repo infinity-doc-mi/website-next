@@ -1,0 +1,10 @@
+{
+  "name": "@duesabati/collection-d1",
+  "version": "1.0.0",
+  "exports": "./mod.ts",
+
+  "imports": {
+    "@cloudflare/workers-types": "npm:@cloudflare/workers-types",
+    "immer": "npm:immer"
+  }
+}

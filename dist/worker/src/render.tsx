@@ -1,64 +1,80 @@
-import React from 'react'
 import type { RedirectStatusCode } from 'hono/utils/http-status'
 import { Handler } from 'hono'
 import { stream } from 'hono/streaming'
 
+// @deno-types="@types/react-dom/server"
 import { renderToReadableStream } from 'react-dom/server'
 
 import {
-  createStaticHandler,
   createStaticRouter,
+  type StaticHandler,
   StaticRouterProvider,
-} from 'react-router-dom/server'
-type StaticHandler = ReturnType<typeof createStaticHandler>
+} from 'react-router'
+
+import { d1 } from '@duesabati/collection-d1'
+import { SimpleD1Client } from '@duesabati/simple-d1'
 
 import { Root } from '@infinitydoc/website-pages'
+import { setup_cols } from '@infinitydoc/db'
+import { ServiceHighlight } from '@infinitydoc/model'
+import { Bindings } from '../worker-context.d.ts'
 
-export const ssr = (handler: StaticHandler): Handler => async (c) => {
-  const context = await handler.query(c.req.raw)
+export const ssr =
+  (handler: StaticHandler): Handler<{ Bindings: Bindings }> => async (c) => {
+    const client = new SimpleD1Client(c.env.DB)
 
-  if (
-    context instanceof Response &&
-    [301, 302, 303, 307, 308].includes(context.status)
-  ) {
-    return c.redirect(
-      context.headers.get('Location') ?? '/',
-      context.status as RedirectStatusCode,
-    )
-  }
+    const cols = setup_cols((cols) => {
+      cols.get(ServiceHighlight).store_in(
+        d1(client.table('service_highlight', ServiceHighlight)),
+      )
+    })
 
-  if (context instanceof Response) {
-    return context
-  }
+    const context = await handler.query(c.req.raw, {
+      requestContext: { cols },
+    })
 
-  const router = createStaticRouter(handler.dataRoutes, context, {
-    future: {
-      v7_partialHydration: true,
-      v7_relativeSplatPath: true,
+    if (
+      context instanceof Response &&
+      [301, 302, 303, 307, 308].includes(context.status)
+    ) {
+      return c.redirect(
+        context.headers.get('Location') ?? '/',
+        context.status as RedirectStatusCode,
+      )
     }
-  })
 
-  const title = context.matches[0].route.handle.title ?? 'InfinityDoc'
+    if (context instanceof Response) {
+      return context
+    }
 
-  return stream(c, async (stream) => {
-    stream.onAbort(() => console.log('aborted'))
+    const router = createStaticRouter(handler.dataRoutes, context)
 
-    const r = await renderToReadableStream(
-      <Root title={title}>
-        <StaticRouterProvider router={router} context={context} />
-      </Root>,
-      {
-        bootstrapScripts: ['./main.js'],
-        bootstrapScriptContent: `window.__HEAD__ = ${
-          JSON.stringify({
-            title,
-          })
-        }`,
-      },
-    )
+    const title = context.matches[0].route.handle?.title ?? 'InfinityDoc'
 
-    await stream.pipe(r)
-  })
-}
+    c.header('Content-Type', 'text/html')
+
+    return stream(c, async (stream) => {
+      stream.onAbort(() => console.log('aborted'))
+
+      const r = await renderToReadableStream(
+        <Root title={title}>
+          <StaticRouterProvider
+            router={router}
+            context={context}
+          />
+        </Root>,
+        {
+          bootstrapScripts: ['/main.js'],
+          bootstrapScriptContent: `window.__HEAD__ = ${
+            JSON.stringify({
+              title,
+            })
+          }`,
+        },
+      )
+
+      await stream.pipe(r)
+    })
+  }
 
 // const is_redirect = (res: Response) => res.status >= 300 && res.status < 400

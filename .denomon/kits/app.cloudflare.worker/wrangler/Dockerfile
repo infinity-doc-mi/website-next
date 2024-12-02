@@ -1,3 +1,3 @@
-FROM jfxs/wrangler AS context
+FROM jfxs/wrangler:latest AS context
 
 ENTRYPOINT [ "wrangler", "dev" ]

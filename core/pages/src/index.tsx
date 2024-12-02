@@ -1,5 +1,6 @@
-import type { RouteObject } from 'react-router-dom'
+import type { RouteObject } from 'react-router'
 import { LandingScreen } from './landing.tsx'
+import { ServicesEditorPage } from './editor/services.tsx'
 
 export const routes: RouteObject[] = [
   {
@@ -7,5 +8,10 @@ export const routes: RouteObject[] = [
     Component: LandingScreen.render,
     loader: LandingScreen.load,
     handle: LandingScreen.head(),
+  },
+  {
+    path: '/editor/services',
+    Component: ServicesEditorPage.render,
+    loader: ServicesEditorPage.load,
   },
 ]

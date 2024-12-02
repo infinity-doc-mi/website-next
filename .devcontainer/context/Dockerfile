@@ -17,6 +17,7 @@ RUN apt-get update \
   && apt-get -y install unzip \
   && apt-get -y install wget \
   && apt-get -y install zsh \
+  && apt-get -y install sqlite3 \
   && apt-get autoremove -y \
   && apt-get clean -y \
   && rm -rf /var/lib/apt/lists/*

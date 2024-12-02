@@ -1,3 +1,6 @@
+import { default as esbuild } from 'esbuild'
+import { denoPlugins } from 'esbuild-deno-plugin'
+
 import postcss from 'postcss'
 import tailwind, { type Config } from 'tailwindcss'
 
@@ -5,10 +8,31 @@ const WORKSPACE_DIR = Deno.env.get('DENOMON_WORKSPACE_DIR') || 'unset'
 const SRC_DIR = Deno.env.get('DENOMON_SRC') || 'unset'
 const OUT_DIR = Deno.env.get('DENOMON_OUT') || 'unset'
 
+const build = async (entry_point: string, configPath: string) =>
+  await esbuild.build({
+    write: false,
+    format: 'esm',
+    plugins: [...denoPlugins({ configPath })],
+    entryPoints: [entry_point],
+    bundle: true,
+  })
+
 export async function buildCSS() {
-  const config = await import(`${SRC_DIR}/tailwind.config.js`) as {
-    default: Config
+  const kit_config = new URL(import.meta.resolve('../../deno.json')).pathname
+
+  const { outputFiles } = await build(
+    `${SRC_DIR}/tailwind.config.js`,
+    kit_config,
+  )
+
+  if (outputFiles == null || outputFiles.length === 0) {
+    console.error('Failed to build tailwind config')
+    return
   }
+
+  const output = outputFiles[0]
+  const data_url = `data:application/javascript;base64,${btoa(output.text)}`
+  const config = await import(data_url) as { default: Config }
 
   const proc = postcss([tailwind({
     ...config.default,

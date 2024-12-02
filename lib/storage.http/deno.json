@@ -1,9 +1,0 @@
-{
-  "name": "@duesabati/storage-http",
-  "version": "1.0.0",
-  "exports": "./mod.ts",
-
-  "imports": {
-    "storage": "@duesabati/storage"
-  }
-}

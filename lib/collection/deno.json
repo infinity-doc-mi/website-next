@@ -1,0 +1,18 @@
+{
+  "name": "@duesabati/collection",
+  "version": "1.0.0",
+  "exports": "./mod.ts",
+
+  "imports": {
+    "mitra": "@duesabati/mitra",
+    "fuse.js": "npm:fuse.js",
+    "immer": "npm:immer",
+    "lodash.get": "npm:lodash.get",
+    "lodash.set": "npm:lodash.set",
+    "object-hash": "npm:object-hash",
+
+    "@types/lodash.get": "npm:@types/lodash.get",
+    "@types/lodash.set": "npm:@types/lodash.set",
+    "@types/object-hash": "npm:@types/object-hash"
+  }
+}
